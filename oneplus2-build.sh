@@ -18,7 +18,7 @@ export PATH=$PATH:/home/pranaynarang/toolchain/bin
 
 cd kernel
 echo -e "Making Config"
-make cm_oneplus2_defconfig
+make oneplus2_defconfig
 echo -e "Starting Build"
 echo -e "$blue**************************************************************************** $nocal"
 echo "                    "
