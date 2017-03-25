@@ -18,7 +18,7 @@ export CCOMPILE=$CROSS_COMPILE
 export CROSS_COMPILE=aarch64-linux-android-
 export PATH=$PATH:/home/pranaynarang/toolchain/bin
 
-cd kernel
+cd ~/kernel
 echo -e "Making Config"
 make lineageos_lettuce_defconfig
 echo -e "Starting Build"
@@ -37,10 +37,10 @@ echo -e "Generating dt.img"
 $DTBTOOL -2 -o $KERNEL_DIR/arch/arm64/boot/dt.img -s 2048 -p $KERNEL_DIR/scripts/dtc/ $KERNEL_DIR/arch/arm/boot/dts/
 cd ..
 echo -e "Moving shiz"
-rm -rf zipper/tools/zImage zipper/tools/dt.img
-rm -rf zipper/DarkBeast*
-cp kernel/arch/arm64/boot/Image zipper/tools/zImage
-cp kernel/arch/arm64/boot/dt.img zipper/tools/dt.img
-cd zipper
+rm -rf ~/zipper/tools/zImage ~/zipper/tools/dt.img
+rm -rf ~/zipper/DarkBeast*
+cp ~/kernel/arch/arm64/boot/Image ~/zipper/tools/zImage
+cp ~/kernel/arch/arm64/boot/dt.img ~/zipper/tools/dt.img
+cd ~/zipper
 zip -r DarkBeast-Kernel-v1-lettuce-$(date +"%Y%m%d").zip *
 echo -e "Done"

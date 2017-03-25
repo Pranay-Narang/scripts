@@ -4,19 +4,19 @@ cyan='\033[0;36m'
 yellow='\033[0;33m'
 red='\033[0;31m'
 nocol='\033[0m'
-TOOLCHAIN_DIR=/home/pranaynarang/toolchain/bin
-KERNEL_DIR=/home/pranaynarang/kernel
+TOOLCHAIN_DIR=~/toolchain/bin
+KERNEL_DIR=~/kernel
 KERN_IMG=$KERNEL_DIR/arch/arm64/boot/Image.gz-dtb
 
 export ARCH=arm64
 export KBUILD_BUILD_USER="The_DarkBeast"
 export KBUILD_BUILD_HOST="Weed-Machine"
-STRIP="/home/pranaynarang/toolchain/bin/aarch64-linux-android-strip"
+STRIP="~/toolchain/bin/aarch64-linux-android-strip"
 export CCOMPILE=$CROSS_COMPILE
 export CROSS_COMPILE=aarch64-linux-android-
-export PATH=$PATH:/home/pranaynarang/toolchain/bin
+export PATH=$PATH:~/toolchain/bin
 
-cd kernel
+cd ~/kernel
 echo -e "Making Config"
 make oneplus2_defconfig
 echo -e "Starting Build"
@@ -33,9 +33,9 @@ exit 1
 fi
 cd ..
 echo -e "Moving shiz"
-rm -rf zipper/tools/Image.gz-dtb
-rm -rf zipper/DarkBeast*
-cp kernel/arch/arm64/boot/Image.gz-dtb zipper/tools/Image.gz-dtb
-cd zipper
+rm -rf ~/zipper/tools/Image.gz-dtb
+rm -rf ~/zipper/DarkBeast*
+cp ~/kernel/arch/arm64/boot/Image.gz-dtb ~/zipper/tools/Image.gz-dtb
+cd ~/zipper
 zip -r DarkBeast-Kernel-v2-oneplus2-$(date +"%Y%m%d").zip *
 echo -e "Done"
