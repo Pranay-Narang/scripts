@@ -11,9 +11,9 @@ KERN_IMG=$KERNEL_DIR/arch/arm64/boot/Image.gz-dtb
 export ARCH=arm64
 export KBUILD_BUILD_USER="The_DarkBeast"
 export KBUILD_BUILD_HOST="Weed-Machine"
-STRIP="~/toolchain/bin/aarch64-linux-android-strip"
+STRIP="~/toolchain/bin/aarch64-"
 export CCOMPILE=$CROSS_COMPILE
-export CROSS_COMPILE=aarch64-linux-android-
+export CROSS_COMPILE=aarch64-
 export PATH=$PATH:~/toolchain/bin
 
 cd ~/kernel
