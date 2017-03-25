@@ -35,7 +35,7 @@ cd ..
 echo -e "Moving shiz"
 rm -rf ~/zipper/tools/Image.gz-dtb
 rm -rf ~/zipper/DarkBeast*
-cp ~/kernel/arch/arm64/boot/Image.gz-dtb ~/zipper/tools/Image.gz-dtb
+cp ~/kernel/arch/arm64/boot/Image.gz-dtb ~/zipper/Image.gz-dtb
 cd ~/zipper
 zip -r DarkBeast-Kernel-v2-oneplus2-$(date +"%Y%m%d").zip *
 echo -e "Done"
