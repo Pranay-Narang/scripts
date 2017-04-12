@@ -50,6 +50,7 @@ then
 fi
    DATE_END=$(date +"%s")
    DIFF=$(($DATE_END - $DATE_START))
+   echo -e " "
    echo "It took $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds to build the kernel"
    echo " "
    cd ..
@@ -60,8 +61,7 @@ read bool
 
 if [ $bool = N ]
 then
-    echo -e "$(cyan) Kernel has been compiled succesfully $(nocol)"
-    exit 1
+    echo -e "$cyan Kernel has been compiled succesfully $nocol"
 
 else
     echo -e "Moving required components to zipper"
@@ -70,21 +70,20 @@ else
     cp ~/kernel/arch/arm64/boot/Image.gz-dtb ~/zipper/Image.gz-dtb
     cd ~/zipper
     echo -e " "
-    echo -e "$(yellow) Zipping all Contents $(nocol)"
+    echo -e "$yellow Zipping all Contents $nocol"
     zip -r $FINAL_ZIP.zip *
     echo -e " "
     echo -e "Zipped all the contents"
-    echo -e "$(cyan) $FINAL_ZIP $(nocol)"
-fi
+    echo -e "Zip Name: $cyan $FINAL_ZIP.zip $nocol"
+    echo -e " "
+    echo -e "Do you want to upload the zip y/N"
+    read bool
 
-bool=N
-echo -e "Do you want to upload the zip y/N"
-read bool
-
-if [ $bool = y ]
-then
-    wput ftp://${AFH_CREDENTIALS}@uploads.androidfilehost.com/ ${FINAL_VER}.zip
-    echo -e "$FINAL_ZIP has been uploaded to your AndroidFileHost account"
-    echo -e "Build Done"
+    if [ $bool = y ]
+    then
+        wput ftp://${AFH_CREDENTIALS}@uploads.androidfilehost.com/ ${FINAL_VER}.zip
+        echo -e "$FINAL_ZIP has been uploaded to your AndroidFileHost account"
+        echo -e "Build Done"
+    fi
 fi
-    echo -e "Build Done"
+echo -e "Build Done"
