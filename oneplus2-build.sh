@@ -83,7 +83,6 @@ else
     then
         wput ftp://${AFH_CREDENTIALS}@uploads.androidfilehost.com/ ${FINAL_VER}.zip
         echo -e "$FINAL_ZIP has been uploaded to your AndroidFileHost account"
-        echo -e "Build Done"
     fi
 fi
 echo -e "Build Done"
