@@ -17,7 +17,7 @@ bool=N
 
 # DarkBeast kernel details 
 KERNEL_NAME="DarkBeast-Kernel"
-VER="v1"
+VER="r2"
 DEVICE="oneplus2"
 DATE="$(date +"%Y%m%d")"
 FINAL_ZIP="$KERNEL_NAME-$VER-$DEVICE-$DATE"
