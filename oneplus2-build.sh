@@ -15,12 +15,10 @@ KERN_IMG=$KERNEL_DIR/arch/arm64/boot/Image.gz-dtb
 # Var declaration
 bool=N
 
-# DarkBeast kernel details 
+# DarkBeast kernel details
 KERNEL_NAME="DarkBeast-Kernel"
-VER="r3"
 DEVICE="oneplus2"
 DATE="$(date +"%Y%m%d")"
-FINAL_ZIP="$KERNEL_NAME-$VER-$DEVICE-$DATE"
 
 # Usefull components for build
 export ARCH=arm64
@@ -64,6 +62,9 @@ then
     echo -e "$cyan Kernel has been compiled succesfully $nocol"
 
 else
+    echo -e "What do you want to export as release version"
+    read VER
+    FINAL_ZIP="$KERNEL_NAME-$VER-$DEVICE-$DATE"
     echo -e "Moving required components to zipper"
     rm -rf ~/zipper/tools/Image.gz-dtb
     rm -rf ~/zipper/DarkBeast*
