@@ -24,9 +24,9 @@ DATE="$(date +"%Y%m%d")"
 export ARCH=arm64
 export KBUILD_BUILD_USER="The_DarkBeast"
 export KBUILD_BUILD_HOST="Weed-Machine"
-STRIP="~/toolchain/bin/aarch64-"
+STRIP="~/toolchain/bin/aarch64-linux-gnu-"
 export CCOMPILE=$CROSS_COMPILE
-export CROSS_COMPILE=aarch64-
+export CROSS_COMPILE=aarch64-linux-gnu-
 export PATH=$PATH:~/toolchain/bin
 DATE_START=$(date +"%s")
 
