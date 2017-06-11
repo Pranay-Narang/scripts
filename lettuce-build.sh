@@ -1,46 +1,94 @@
-BUILD_START=$(date +"%s")
+#!/bin/bash
+
+# Declaring colours
 blue='\033[0;34m'
 cyan='\033[0;36m'
 yellow='\033[0;33m'
 red='\033[0;31m'
 nocol='\033[0m'
-TOOLCHAIN_DIR=/home/pranaynarang/toolchain/bin
-KERNEL_DIR=/home/pranaynarang/kernel
-DTBTOOL=/home/pranaynarang/dtbToolCM
-KERN_IMG=$KERNEL_DIR/arch/arm64/boot/Image
-DT_IMG=$KERNEL_DIR/arch/arm64/boot/dt.img
 
+# Variables for build
+TOOLCHAIN_DIR=~/toolchain/bin
+KERNEL_DIR=~/kernel
+KERN_IMG=$KERNEL_DIR/arch/arm64/boot/Image
+DTBTOOL=~/dtbToolCM
+
+# Var declaration
+bool=N
+
+# DarkBeast kernel details
+KERNEL_NAME="DarkBeast-Kernel"
+DEVICE="lettuce"
+DATE="$(date +"%Y%m%d")"
+
+# Usefull components for build
 export ARCH=arm64
 export KBUILD_BUILD_USER="The_DarkBeast"
 export KBUILD_BUILD_HOST="Weed-Machine"
-STRIP="/home/pranaynarang/toolchain/bin/aarch64-linux-android-strip"
+STRIP="~/toolchain/bin/aarch64-linux-android-strip"
 export CCOMPILE=$CROSS_COMPILE
 export CROSS_COMPILE=aarch64-linux-android-
-export PATH=$PATH:/home/pranaynarang/toolchain/bin
+export PATH=$PATH:~/toolchain/bin
+DATE_START=$(date +"%s")
 
 cd ~/kernel
-echo -e "Making Config"
+echo -e "Generating .config file"
+echo " "
 make lineageos_lettuce_defconfig
 echo -e "Starting Build"
-echo -e "$blue**************************************************************************** $nocal"
+echo -e "$blue**************************************************************************** $nocol"
 echo "                    "
-echo "                                   $yellowCompiling DarkBeast Kernel $nocal             "
+echo "                                   Compiling DarkBeast Kernel             "
 echo "                    "
-echo -e "$blue**************************************************************************** $nocal"
+echo -e "$blue**************************************************************************** $nocol"
 make -j32
 if ! [ -a $KERN_IMG ];
 then
-echo -e "$red Kernel Compilation failed! Fix the errors! $nocol"
-exit 1
+    echo -e "$red Kernel Compilation failed! Fix the errors! $nocol"
+    exit 1
 fi
-echo -e "Generating dt.img"
-$DTBTOOL -2 -o $KERNEL_DIR/arch/arm64/boot/dt.img -s 2048 -p $KERNEL_DIR/scripts/dtc/ $KERNEL_DIR/arch/arm/boot/dts/
-cd ..
-echo -e "Moving shiz"
-rm -rf ~/zipper/tools/zImage ~/zipper/tools/dt.img
-rm -rf ~/zipper/DarkBeast*
-cp ~/kernel/arch/arm64/boot/Image ~/zipper/tools/zImage
-cp ~/kernel/arch/arm64/boot/dt.img ~/zipper/tools/dt.img
-cd ~/zipper
-zip -r DarkBeast-Kernel-v1-lettuce-$(date +"%Y%m%d").zip *
-echo -e "Done"
+   echo " "
+   echo -e "Generating dt.img using dtbToolCM"
+   $DTBTOOL -2 -o $KERNEL_DIR/arch/arm64/boot/dt.img -s 2048 -p $KERNEL_DIR/scripts/dtc/ $KERNEL_DIR/arch/arm/boot/dts/
+   DATE_END=$(date +"%s")
+   DIFF=$(($DATE_END - $DATE_START))
+   echo -e " "
+   echo "It took $(($DIFF / 60)) minute(s) and $(($DIFF % 60)) seconds to build the kernel"
+   echo " "
+   cd ..
+
+echo -e " "
+echo -e "Do you want to build the zip y/N"
+read bool
+
+if [ $bool = N ]
+then
+    echo -e "$cyan Kernel has been compiled succesfully $nocol"
+
+else
+    echo -e "What do you want to export as release version"
+    read VER
+    FINAL_ZIP="$KERNEL_NAME-$VER-$DEVICE-$DATE"
+    echo -e "Moving required components to zipper"
+    rm -rf ~/zipper/tools/zImage ~/zipper/tools/dt.img
+    rm -rf ~/zipper/DarkBeast*
+    cp ~/kernel/arch/arm64/boot/Image ~/zipper/tools/zImage
+    cp ~/kernel/arch/arm64/boot/dt.img ~/zipper/tools/dt.img
+    cd ~/zipper
+    echo -e " "
+    echo -e "$yellow Zipping all Contents $nocol"
+    zip -r $FINAL_ZIP.zip *
+    echo -e " "
+    echo -e "Zipped all the contents"
+    echo -e "Zip Name: $cyan $FINAL_ZIP.zip $nocol"
+    echo -e " "
+    echo -e "Do you want to upload the zip y/N"
+    read bool
+
+    if [ $bool = y ]
+    then
+        wput ftp://${AFH_CREDENTIALS}@uploads.androidfilehost.com/ ${FINAL_VER}.zip
+        echo -e "$FINAL_ZIP has been uploaded to your AndroidFileHost account"
+    fi
+fi
+echo -e "Build Done"
