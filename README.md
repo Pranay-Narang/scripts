@@ -10,7 +10,9 @@ bash <device-name>-build.sh
 
 After a successful build you will get an option to upload the build directly to your AndroidFileHost account to use that option add this to your ~/.bashrc file 
 
-'export AFH_CREDENTIALS=Your AFH FTP username:Your AFH FTP password'
+```bash
+export AFH_CREDENTIALS=Your AFH FTP username:Your AFH FTP password
+```
 
 Directory Structure 
 
