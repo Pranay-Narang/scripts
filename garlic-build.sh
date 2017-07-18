@@ -11,7 +11,7 @@ nocol='\033[0m'
 # Variables for build
 TOOLCHAIN_DIR=~/toolchain/bin
 KERNEL_DIR=~/kernel
-OUT=$OUT
+OUT=~/out
 KERN_IMG=$OUT/arch/arm64/boot/Image.gz-dtb
 
 # Var declaration
@@ -54,7 +54,7 @@ fi
    DATE_END=$(date +"%s")
    DIFF=$(($DATE_END - $DATE_START))
    echo -e " "
-   echo "$green#### make completed successfully $(($DIFF / 60))minutes and $(($DIFF % 60))seconds #### $nocol"
+   echo -e "$green#### make completed successfully $(($DIFF / 60))minutes and $(($DIFF % 60))seconds #### $nocol"
    echo " "
    cd ..
 
@@ -73,7 +73,7 @@ else
     echo -e "Moving required components to zipper"
     rm -rf ~/zipper/tools/Image.gz-dtb
     rm -rf ~/zipper/DarkBeast*
-    cp ~/kernel/arch/arm64/boot/Image.gz-dtb ~/zipper/Image.gz-dtb
+    cp $OUT/arch/arm64/boot/Image.gz-dtb ~/zipper/Image.gz-dtb
     cd ~/zipper
     echo -e " "
     echo -e "$yellow Zipping all Contents $nocol"
@@ -88,7 +88,7 @@ else
     if [ $bool = y ]
     then
         wput ftp://${AFH_CREDENTIALS}@uploads.androidfilehost.com/ ${FINAL_VER}.zip
+        echo -e " "
         echo -e "$FINAL_ZIP has been uploaded to your AndroidFileHost account"
     fi
 fi
-echo -e "Build Done"
