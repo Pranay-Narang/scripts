@@ -64,7 +64,7 @@ read bool
 
 if [ $bool = N ]
 then
-    exit 0
+    echo ""
 
 else
     echo -e "What do you want to export as release version"
