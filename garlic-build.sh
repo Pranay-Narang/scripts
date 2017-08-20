@@ -13,6 +13,7 @@ TOOLCHAIN_DIR=~/toolchain/bin
 KERNEL_DIR=~/kernel
 OUT=~/out
 KERN_IMG=$OUT/arch/arm64/boot/Image.gz-dtb
+MODULES_DIR=$OUT/drivers/staging/prima
 
 # Var declaration
 bool=N
@@ -26,7 +27,7 @@ DATE="$(date +"%Y%m%d")"
 export ARCH=arm64
 export KBUILD_BUILD_USER="The_DarkBeast"
 export KBUILD_BUILD_HOST="Weed-Machine"
-STRIP="~/toolchain/bin/aarch64-linux-gnu-"
+STRIP=$TOOLCHAIN_DIR/aarch64-linux-gnu-strip
 export CCOMPILE=$CROSS_COMPILE
 export CROSS_COMPILE=aarch64-linux-gnu-
 export PATH=$PATH:~/toolchain/bin
@@ -69,11 +70,17 @@ then
 else
     echo -e "What do you want to export as release version"
     read VER
+    echo -e ""
+    echo -e "Stripping down newly generated modules"
+    cd $MODULES_DIR
+    $STRIP --strip-unneeded *.ko
     FINAL_ZIP="$KERNEL_NAME-$VER-$DEVICE-$DATE"
     echo -e "Moving required components to zipper"
     rm -rf ~/zipper/tools/Image.gz-dtb
     rm -rf ~/zipper/DarkBeast*
+    rm -rf ~/zipper/modules/wlan.ko
     cp $OUT/arch/arm64/boot/Image.gz-dtb ~/zipper/Image.gz-dtb
+    cp $MODULES_DIR/wlan.ko ~/zipper/modules/wlan.ko
     cd ~/zipper
     echo -e " "
     echo -e "$yellow Zipping all Contents $nocol"
